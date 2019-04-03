@@ -17,5 +17,5 @@ With this XML file, you don't need to have a separate Splunk running.
 * **Benjamin Lefebvre (Dimension Data)** 
 
 ## Acknowledgments
-* **Erik Peeters (Infoblox)**
-* **Steven Van Gijsel (Infoblox)**
+* Erik Peeters (Infoblox)
+* Steven Van Gijsel (Infoblox)
