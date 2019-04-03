@@ -17,7 +17,7 @@ Create a new Dashboard:
 Edit the source:
 ![Screenshot](edit_source.PNG)
 
-Insert the XML and hit save:
+Insert the XML code within activetrust_cloud_security_report_wapi.xml and hit save:
 ![Screenshot](insert_xml.PNG)
 
 Open the dashboard:
