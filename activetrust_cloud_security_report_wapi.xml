@@ -1,0 +1,757 @@
+<form script="atc_security.js" stylesheet="atc_security.css" theme="light">
+  <label>ActiveTrust Cloud Security Report (tuned by Benjamin)</label>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="time" token="time">
+      <label>Time</label>
+      <default>
+        <earliest>-1w</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="multiselect" token="tclass">
+      <label>Threat class</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcThreatClass</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>tclass</fieldForLabel>
+      <fieldForValue>InfobloxAtcThreatClass</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcThreatClass="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="tproperty">
+      <label>Threat property</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcThreatProperty</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>tproperty</fieldForLabel>
+      <fieldForValue>InfobloxAtcThreatProperty</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcThreatProperty="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="text" token="query">
+      <label>Domain Name (e.g. www.c2.se)</label>
+      <default>All</default>
+      <change>
+        <condition value="All">
+          <set token="query_str">
+            <![CDATA[ ]]>
+          </set>
+        </condition>
+        <condition value="*">
+          <set token="query_str">(InfobloxAtcInfobloxAtcQname=$value$*)</set>
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="qtype">
+      <label>Query type</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcQtype</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Query type</fieldForLabel>
+      <fieldForValue>InfobloxAtcQtype</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcQtype="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="text" token="src_ip">
+      <label>Device (e.g. 192.168.1.2)</label>
+      <default>All</default>
+      <change>
+        <condition value="All">
+          <set token="src_ip_str">
+            <![CDATA[ ]]>
+          </set>
+        </condition>
+        <condition value="*">
+          <set token="src_ip_str">(InfobloxAtcDevice=$value$)</set>
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="network">
+      <label>Network</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcNetwork</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Network</fieldForLabel>
+      <fieldForValue>InfobloxAtcNetwork</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcNetwork="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="text" token="user">
+      <label>User (e.g. cliu)</label>
+      <default>All</default>
+      <change>
+        <condition value="All">
+          <set token="user_str">
+            <![CDATA[ ]]>
+          </set>
+        </condition>
+        <condition value="*">
+          <set token="user_str">(user=$value$)</set>
+        </condition>
+      </change>
+    </input>
+    <input type="multiselect" token="country">
+      <label>Country</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcCountry</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Country</fieldForLabel>
+      <fieldForValue>InfobloxAtcCountry</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcCountry="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="rcode">
+      <label>Response Code</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcRcode</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Response Code</fieldForLabel>
+      <fieldForValue>InfobloxAtcRcode</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcRcode="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="severity">
+      <label>Severity</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcSeverity</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Severity</fieldForLabel>
+      <fieldForValue>InfobloxAtcSeverity</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcSeverity="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="confidence">
+      <label>Confidence</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcConfidence</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Confidence</fieldForLabel>
+      <fieldForValue>InfobloxAtcConfidence</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcConfidence="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="policy_name">
+      <label>Policy Name</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcPolicyName</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Policy Name</fieldForLabel>
+      <fieldForValue>InfobloxAtcPolicyName</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcPolicyName="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="multiselect" token="feed_name">
+      <label>Feed Name</label>
+      <choice value="*">All</choice>
+      <search>
+        <query>eventtype= infoblox_dns_event
+               | stats count by InfobloxAtcFeedName</query>
+        <earliest>$time.earliest$</earliest>
+        <latest>$time.latest$</latest>
+      </search>
+      <fieldForLabel>Feed Name</fieldForLabel>
+      <fieldForValue>InfobloxAtcFeedName</fieldForValue>
+      <default>*</default>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>InfobloxAtcFeedName="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+    </input>
+    <input type="radio" token="feed_name">
+      <label>Reputation And / Or Behavioral</label>
+      <choice value="*">Both</choice>
+      <choice value="feed_name = Threat* OR feed_name = CUSTOM">Behavioral</choice>
+      <choice value="feed_name != Threat* AND feed_name !=CUSTOM">Reputation</choice>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Filtered Hits</title>
+      <single>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+			|stats count</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Filtered hits over time</title>
+      <chart>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+            | timechart count</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Filtered Logs</title>
+      <table id="filtered_logs">
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$     
+            | rex field=InfobloxAtcQname "(?&lt;InfobloxAtcQname&gt;.*)\.$"
+            | rename InfobloxAtcThreatClass as "Threat class", InfobloxAtcThreatProperty as "Threat property", InfobloxAtcQname as "Domain name", InfobloxAtcDevice as "Client IP", InfobloxAtcUser as "User", InfobloxAtcRcode as "Response code", InfobloxAtcRdata as "Response data", InfobloxAtcQtype as "Query type", InfobloxAtcPolicyName as "Policy name", InfobloxAtcFeedName as "Feed name", InfobloxAtcCountry as "Country", InfobloxAtcSeverity as "Severity", InfobloxAtcConfidence as "Confidence" 
+            | table _time, "Threat class", "Threat property", "Domain name", "Query type", "Client IP", "User", "Country", "Response code", "Response data", "Severity", "Confidence", "Policy name", "Feed name"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">preview</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Client</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$  
+            | rename InfobloxAtcDevice as "Client IP"
+            | top limit=200 "Client IP"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="src_ip_str">InfobloxAtcDevice="$click.value$"</set>
+          <set token="form.src_ip">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top User</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$ 
+			| top limit=200 InfobloxAtcUser</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="user">InfobloxAtcUser="$click.value$"</set>
+          <set token="form.user">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Domain name</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$ 
+            | rex field=InfobloxAtcQname "(?&lt;InfobloxAtcQname&gt;.*)\.$"
+            | rename InfobloxAtcQname as "Domain name"
+            | top limit=200 "Domain name"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="totalsRow">true</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="query_str">InfobloxAtcQname="$click.value$"</set>
+          <set token="form.query">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Query type</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+            | rename InfobloxAtcQtype as "Query type" 
+            | top limit=200 "Query type"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="qtype">InfobloxAtcQtype="$click.value$"</set>
+          <set token="form.qtype">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Threat property</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+            | rename InfobloxAtcThreatProperty as "Threat property" 
+            | top limit=200 "Threat property"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="tproperty">InfobloxAtcThreatProperty="$click.value$"</set>
+          <set token="form.tproperty">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Threat class</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+            | rename InfobloxAtcThreatClass as "Threat class"
+            | top limit=200 "Threat class"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="tclass">InfobloxAtcThreatClass="$click.value$"</set>
+          <set token="form.tclass">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Policy Name</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$  
+			| rename InfobloxAtcPolicyName as "Policy Name" 
+            | top limit=200 "Policy Name"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="policy_name">InfobloxAtcPolicyName="$click.value$"</set>
+          <set token="form.policy_name">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Feed Name</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$  
+			| rename InfobloxAtcFeedName as "Feed Name" 
+            | top limit=200 "Feed Name"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="feed_name">InfobloxAtcFeedName="$click.value$"</set>
+          <set token="form.feed_name">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Country</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$ 
+            | top limit=200 InfobloxAtcCountry</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="country">InfobloxAtcCountry="$click.value$"</set>
+          <set token="form.country">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Response Code</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$   
+            | rename InfobloxAtcRcode as "Response code"| top limit=200 "Response code"</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="rcode">InfobloxAtcRcode="$click.value$"</set>
+          <set token="form.rcode">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Severity</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$  
+            | top limit=200 InfobloxAtcSeverity</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="severity">InfobloxAtcSeverity="$click.value$"</set>
+          <set token="form.severity">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Confidence</title>
+      <table>
+        <search>
+          <query>eventtype= infoblox_dns_event
+            $tclass$
+            $tproperty$
+            $query_str$
+            $qtype$
+            $src_ip_str$
+            $network$
+            $user_str$
+            $country$
+            $rcode$
+            $severity$
+            $confidence$ 
+            $policy_name$
+            $feed_name$
+            | top limit=200 InfobloxAtcConfidence</query>
+          <earliest>$time.earliest$</earliest>
+          <latest>$time.latest$</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">cell</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D6563C" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent"></format>
+        <drilldown>
+          <set token="confidence">InfobloxAtcConfidence="$click.value$"</set>
+          <set token="form.confidence">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>
