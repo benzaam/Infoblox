@@ -11,6 +11,19 @@ With this XML file, you don't need to have a separate Splunk running.
 * Deploy the atc_threats_api.py python script as explained in the [deployment guide](https://www.infoblox.com/wp-content/uploads/infoblox-deployment-guide-activetrust-cloud-threats-api.pdf)
 
 ## Deployment
+Create a new Dashboard:
+![Screenshot](create_new_dashboard.PNG)
+
+Edit the source:
+![Screenshot](edit_source.PNG)
+
+Insert the XML and hit save:
+![Screenshot](insert_xml.PNG)
+
+Open the dashboard:
+![Screenshot](1.PNG)
+![Screenshot](2.PNG)
+
 
 ## Authors
 * **Nicolas Jeanselme (Infoblox)**  - *initial work*
