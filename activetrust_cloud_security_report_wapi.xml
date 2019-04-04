@@ -4,7 +4,7 @@
     <input type="time" token="time">
       <label>Time</label>
       <default>
-        <earliest>-1w</earliest>
+        <earliest>-1d</earliest>
         <latest>now</latest>
       </default>
     </input>
@@ -312,7 +312,10 @@
             $feed_name$     
             | rex field=InfobloxAtcQname "(?&lt;InfobloxAtcQname&gt;.*)\.$"
             | rename InfobloxAtcThreatClass as "Threat class", InfobloxAtcThreatProperty as "Threat property", InfobloxAtcQname as "Domain name", InfobloxAtcDevice as "Client IP", InfobloxAtcUser as "User", InfobloxAtcRcode as "Response code", InfobloxAtcRdata as "Response data", InfobloxAtcQtype as "Query type", InfobloxAtcPolicyName as "Policy name", InfobloxAtcFeedName as "Feed name", InfobloxAtcCountry as "Country", InfobloxAtcSeverity as "Severity", InfobloxAtcConfidence as "Confidence" 
-            | table _time, "Threat class", "Threat property", "Domain name", "Query type", "Client IP", "User", "Country", "Response code", "Response data", "Severity", "Confidence", "Policy name", "Feed name"</query>
+            | lookup dnslookup clientip as "Client IP"
+            | rename clienthost as "Hostname"
+            | fillnull value="NO PTR" "Hostname"
+            | table _time, "Threat class", "Threat property", "Domain name", "Query type", "Client IP", "Hostname", "User", "Country", "Response code", "Response data", "Severity", "Confidence", "Policy name", "Feed name"</query>
           <earliest>$time.earliest$</earliest>
           <latest>$time.latest$</latest>
         </search>
@@ -344,7 +347,11 @@
             $policy_name$
             $feed_name$  
             | rename InfobloxAtcDevice as "Client IP"
-            | top limit=200 "Client IP"</query>
+            | top limit=200 "Client IP"
+            | lookup dnslookup clientip as "Client IP"
+            | rename clienthost as "Hostname"
+            | fillnull value="NO PTR" "Hostname"
+            | fields "Client IP", "Hostname" count, percent</query>
           <earliest>$time.earliest$</earliest>
           <latest>$time.latest$</latest>
         </search>
