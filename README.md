@@ -4,6 +4,10 @@ This Splunk dashboard is a modified version of offical Splunk App for Infoblox A
 
 With this XML file, you don't need to have a separate Splunk running.
 
+## Release notes
+v1: initial release
+v1.1: added IP to hosname DNS lookup for Filtered Hosname & Top Client dashboards
+
 ## Getting started
 ### Prerequisites
 * Infoblox Reporting & Analytics
