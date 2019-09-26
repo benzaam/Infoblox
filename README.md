@@ -24,6 +24,9 @@ Edit the source:
 Insert the XML code within activetrust_cloud_security_report_wapi.xml and hit save:
 ![Screenshot](insert_xml.PNG)
 
+Create a new Event Type under Settings > Event types with the appropriate filter.
+![Screenshot](event_type.PNG)
+
 Open the dashboard:
 ![Screenshot](1.PNG)
 ![Screenshot](2.PNG)
